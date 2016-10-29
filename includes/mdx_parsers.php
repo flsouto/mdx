@@ -44,6 +44,7 @@ function mdx_parse_source_code($source_code){
 			}
 		} else if($context=='snippet'){
 			$line_trimmed = trim($line);
+			// match closing snippet
 			if(mb_substr($line_trimmed,0,5)=='#/mdx'){
 				$snippets[$snippet_id] = implode("\n",$snippet);
 				$output = trim(mb_substr($line_trimmed,5));
@@ -52,6 +53,7 @@ function mdx_parse_source_code($source_code){
 				}
 				$context = 'scan';
 			} else {
+			// increment snippet
 				$snippet []= mdx_indent_less($line, $indent_level);
 			}
 		}
@@ -68,7 +70,8 @@ function mdx_parse_source_code($source_code){
 
 	return [
 		'headers' => $headers,
-		'snippets' => $snippets
+		'snippets' => $snippets,
+		'outputs' => $outputs
 	];
 
 }

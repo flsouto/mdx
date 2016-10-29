@@ -25,7 +25,7 @@ class ParsersTest extends TestCase{
 		];
 
 		$result = mdx_parse_source_code($code);
-		$this->assertEquals(json_encode($expected), json_encode($result['headers']));		
+		$this->assertEquals($expected, $result['headers']);		
 
 	}
 
@@ -49,7 +49,7 @@ class ParsersTest extends TestCase{
 
 		$result = mdx_parse_source_code($code);
 
-		$this->assertEquals(json_encode($expected), json_encode($result['snippets']));
+		$this->assertEquals($expected, $result['snippets']);
 
 	}
 
@@ -99,5 +99,30 @@ class ParsersTest extends TestCase{
 
 	}
 
+	function testOutputsMatch(){
+		$code = "
+			<?php
+			
+			#mdx:test
+			function test(){
+				echo 'blah';
+			}
+			#/mdx print_r(\$output1)
+
+
+			#mdx:test2
+			function test2(){
+				echo 'blah2';
+			}
+			#/mdx print_r(\$output2)
+
+		";
+
+		$result = mdx_parse_source_code($code);
+		$expected = ['test'=>'print_r($output1)','test2'=>'print_r($output2)'];
+
+		$this->assertEquals($expected, $result['outputs']);
+
+	}
 
 }
