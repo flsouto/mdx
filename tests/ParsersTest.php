@@ -107,7 +107,7 @@ class ParsersTest extends TestCase{
 			function test(){
 				echo 'blah';
 			}
-			#/mdx print_r(\$output1)
+			#/mdx print_r(\$output1);
 
 
 			#mdx:test2
@@ -119,7 +119,7 @@ class ParsersTest extends TestCase{
 		";
 
 		$result = mdx_parse_source_code($code);
-		$expected = ['test'=>'print_r($output1)','test2'=>'print_r($output2)'];
+		$expected = ['test'=>'print_r($output1);','test2'=>'print_r($output2);'];
 
 		$this->assertEquals($expected, $result['outputs']);
 

@@ -49,6 +49,7 @@ function mdx_parse_source_code($source_code){
 				$snippets[$snippet_id] = implode("\n",$snippet);
 				$output = trim(mb_substr($line_trimmed,5));
 				if($output){
+					$output = rtrim($output,';').';';
 					$outputs[$snippet_id] = $output;
 				}
 				$context = 'scan';
