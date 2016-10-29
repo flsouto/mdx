@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
     '5253be7627b780e99fc673513ca7565d' => $baseDir . '/mdx_parsers.php',
+    '5d6932a6d638b6db592f0b2e0bcc767d' => $baseDir . '/mdx_processors.php',
 );
