@@ -86,6 +86,20 @@ function mdx_parse_indent_level($line){
 	return $level;
 }
 
+function mdx_parse_indent_str($line){
+	$str = "";
+	for($i=0;$i<mb_strlen($line);$i++){
+		$char = mb_substr($line,$i,1);
+		if($char==" "||$char=="\t"){
+			$str .= $char;
+		} else {
+			break;
+		}
+	}
+	return $str;
+}
+
+
 function mdx_indent_less($line, $level){
 
 	for($i=0;$i<$level;$i++){
