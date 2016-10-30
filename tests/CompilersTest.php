@@ -112,7 +112,7 @@ EXPECTED;
 		";
 		$template = "#mdx:test -o";
 		$result = mdx_compile($template, $code);
-		$this->assertEquals('Works!',$result);
+		$this->assertEquals("```\nWorks!\n```",$result);
 	}
 
 	function testExceptionSnippetNotFound(){
