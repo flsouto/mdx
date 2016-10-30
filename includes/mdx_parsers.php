@@ -53,6 +53,7 @@ function mdx_parse_source_code($source_code){
 					$outputs[$snippet_id] = $output;
 				}
 				$context = 'scan';
+				$snippet = [];
 			} else {
 			// increment snippet
 				$snippet []= mdx_indent_less($line, $indent_level);
