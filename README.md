@@ -1,4 +1,4 @@
-# Mdx - Markdown-X 
+# Markdown-X
 
 ## Overview
 
@@ -198,25 +198,3 @@ The steps required to make this conversion in case you want to see how it works 
 * run mdx README.mdx tests/PipeTest.php
 
 You should see the result of the conversion in your console.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
