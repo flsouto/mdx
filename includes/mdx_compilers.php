@@ -20,7 +20,7 @@ function mdx_compile($template, $source){
 			$code = mdx_build_executable($sources, $snippet);
 			ob_start();
 			eval($code);
-			return ob_get_clean();
+			return "```\n".ob_get_clean()."\n```";
 		} else {
 			return mdx_build_display($sources, $snippet, $match['-h'], $match['-php']);
 		}
