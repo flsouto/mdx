@@ -1,6 +1,6 @@
 {
     "autoload" : {
-    	"files" : ["mdx_parsers.php","mdx_processors.php"]
+    	"files" : ["mdx_parsers.php","mdx_processors.php","mdx_compilers.php"]
     },
     "require": {
         "symfony/polyfill-mbstring": "^1.2"
