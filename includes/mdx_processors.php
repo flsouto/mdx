@@ -7,15 +7,16 @@ function mdx_process_template($template, $callback){
 	$output = [];
 
 	foreach($lines as $i => $line){
+		$line_number = $i + 1;
 		$line_trimmed = trim($line);
 		if(mb_substr($line_trimmed,0,5)=='#mdx:'){
 			$command = trim(mb_substr($line_trimmed,5));
 			$tokens = explode(' ', $command);
 			if(empty($tokens[0])){
-				throw new Exception("Snippet name missing at line $i");
+				throw new Exception("Snippet name missing at line $line_number");
 			}
 			if($tokens[0]=='h'){
-				throw new Exception("Snippet name cannot be 'h' at line $i.");
+				throw new Exception("Snippet name cannot be 'h' at line $line_number.");
 			}
 			$snippet = array_shift($tokens);
 			$remove_headers = [];
@@ -29,11 +30,11 @@ function mdx_process_template($template, $callback){
 				} else if($token=='-o') { 
 					$out = true;
 				} else {
-					throw new Exception("Unrecognized option '$token' at line $i");
+					throw new Exception("Unrecognized option '$token' at line $line_number");
 				}
 			}
 			$line = $callback([
-				'line_number' => $i,
+				'line_number' => $line_number,
 				'line_content' => $line,
 				'snippet_name' => $snippet,
 				'-h' => $remove_headers,

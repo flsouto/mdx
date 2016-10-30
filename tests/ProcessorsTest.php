@@ -48,25 +48,12 @@ class ProcessorsTest extends TestCase{
 	}
 
 	function testLinesAreModified(){
-		$template = "
-			Line 1
-			#mdx:test -h:use,req
-			Line 3
-			#mdx:test2 -o
-			END
-		";
+		$template = "Line 1\n#mdx:test -h:use,req\nLine 3\n#mdx:test2 -o";
 		$output = mdx_process_template($template,function($m){
-			return mdx_parse_indent_str($m['line_content']).'Line '.$m['line_number'];
+			return 'Line '.$m['line_number'];
 		});
-		$expected = "
-			Line 1
-			Line 2
-			Line 3
-			Line 4
-			END
-		";
+		$expected = "Line 1\nLine 2\nLine 3\nLine 4";
 		$this->assertEquals($expected, $output);
-
 	}
 
 
