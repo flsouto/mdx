@@ -1,0 +1,14 @@
+{
+    "name": "flsouto/mdx",
+    "description": "Extracts snippets from php sources and place them into the markdown",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Fabio Souto",
+            "email": "fabiolimasouto@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "keywords"  : ["markdown","processor","php","parsing","extraction"],
+    "require": {}
+}
