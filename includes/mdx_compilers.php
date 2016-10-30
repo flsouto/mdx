@@ -1,7 +1,12 @@
 <?php
 
 function mdx_compile($template, $source){
-	$sources = mdx_parse_source_code($source);
+	if(is_array($source)){
+		// already parsed
+		$sources = $source;
+	} else {
+		$sources = mdx_parse_source_code($source);
+	}
 	return mdx_process_template($template,function($match) use($sources){
 		$line = $match['line_number'];
 		$snippet = $match['snippet_name'];
