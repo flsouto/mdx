@@ -27,4 +27,9 @@ foreach($sources as $src){
 	}
 }
 
-echo mdx_compile(file_get_contents($template), $parsed);
+try{
+	echo mdx_compile(file_get_contents($template), $parsed);	
+} catch(Exception $e) {
+	echo "Could not compile template '$template':\n";
+	echo $e->getMessage();
+}
