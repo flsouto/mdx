@@ -8,7 +8,7 @@ function mdx_parse_source_code($source_code){
 	$snippets = [];
 	$outputs = [];
 
-	$context = 'scan'; // header|snippet|scan
+	$context = 'scan'; // header|snippet|comment|scan
 	$header_id = '';
 	$snippet_id = '';
 	$snippet = [];
@@ -34,6 +34,8 @@ function mdx_parse_source_code($source_code){
 					}
 					$context = 'snippet';
 				}
+			} else if(mb_substr($line_trimmed,0,2)=='/*') {
+				$context = 'comment';
 			}
 		} else if($context=='header') {
 			// Copy this line as header if not empty
@@ -57,6 +59,12 @@ function mdx_parse_source_code($source_code){
 			} else {
 			// increment snippet
 				$snippet []= mdx_indent_less($line, $indent_level);
+			}
+		} else if($context=='comment') {
+			$line_trimmed = trim($line);
+			// end of comment block
+			if(mb_substr($line_trimmed,0,2)=='*/'){
+				$context = 'scan';
 			}
 		}
 	

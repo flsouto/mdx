@@ -53,6 +53,23 @@ class ParsersTest extends TestCase{
 
 	}
 
+	function testSnippetsAreNotExtractedFromCommentBlock(){
+		$code = "
+			<?php
+			/*
+			#mdx:snippet1
+			function test(){
+				echo 'blah';
+			}
+			#/mdx
+			*/
+		";
+
+		$result = mdx_parse_source_code($code);
+		$this->assertEmpty($result['snippets']);
+
+	}
+
 	function testExceptionWhenHeaderNameIsMissing(){
 		$this->expectException(\Exception::class);
 		$code = "
