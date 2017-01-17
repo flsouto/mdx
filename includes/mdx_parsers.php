@@ -5,6 +5,7 @@ function mdx_parse_source_code($source_code){
 	$lines = preg_split("/\r\n|\n/",$source_code);
 	
 	$headers = [];
+	$headers_options = [];
 	$snippets = [];
 	$outputs = [];
 
@@ -24,7 +25,21 @@ function mdx_parse_source_code($source_code){
 					throw new Exception("Could not parse mdx source code: header name is empty at line $i.");
 				}
 				if(mb_substr($line_trimmed,0,7)=='#mdx:h '){
-					$header_id = trim(mb_substr($line_trimmed, 6));
+					$header_str = trim(mb_substr($line_trimmed, 6));
+					$header_parts = explode(' ',$header_str);
+					$header_id = array_shift($header_parts);
+					foreach($header_parts as $option){
+					    if(empty($option)){
+					        continue;
+                        }
+                        if($option=='hidden'){
+					        $headers_options[$header_id] = [
+					            'hidden' => true
+                            ];
+                        } else {
+                            throw new Exception("Could not parse mdx source code: unrecognized option $option at $i.");
+                        }
+                    }
 					$context = 'header';
 				} else {
 					$indent_level = mdx_parse_indent_level($line);
@@ -71,15 +86,16 @@ function mdx_parse_source_code($source_code){
 	}
 
 	if($context=='header'){
-		throw new Exception("Could not parse mdx source code: nothing matched after header '$name'");
+		throw new Exception("Could not parse mdx source code: nothing matched after header '$header_id'");
 	}
 
 	if($context=='snippet'){
-		throw new Exception("Error parsing mdx source code: no closing delimiter for snippet '$name'");
+		throw new Exception("Error parsing mdx source code: no closing delimiter for snippet '$snippet_id'");
 	}
 
 	return [
 		'headers' => $headers,
+        'headers_options' => $headers_options,
 		'snippets' => $snippets,
 		'outputs' => $outputs
 	];

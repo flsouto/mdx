@@ -29,6 +29,34 @@ class ParsersTest extends TestCase{
 
 	}
 
+	function testHeaderOptionsAreExtracted(){
+        $code = "
+			<?php
+			
+			#mdx:h autoload hidden
+			require('vendor/autoload.php');
+
+		";
+
+        $result = mdx_parse_source_code($code);
+        $this->assertTrue($result['headers_options']['autoload']['hidden']);
+    }
+
+    function testExceptionThrownOnInvalidHeaderOption(){
+        $code = "
+			<?php
+			
+			#mdx:h autoload invalid
+			require('vendor/autoload.php');
+
+		";
+
+        $this->expectException(\Exception::class);
+
+        $result = mdx_parse_source_code($code);
+
+    }
+
 	function testSnippetsAreExtracted(){
 		$code = "
 			<?php
