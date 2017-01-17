@@ -71,6 +71,38 @@ EXPECTED;
 		$this->assertEquals($expected, $result);
 	}
 
+    function testSnippetReplacementWithoutHeaderByDefault(){
+        $template = "Take a look at this code:\n";
+        $template.= "#mdx:snip1";
+
+        $code = "
+			<?php
+			#mdx:h autoload hidden
+			require_once('vendor/autoload.php');
+
+			#mdx:snip1
+			function test(){
+				return 'blah';
+			}
+			#/mdx echo test()
+		";
+
+        $expected = <<<EXPECTED
+Take a look at this code:
+```php
+<?php
+
+function test(){
+	return 'blah';
+}
+
+echo test();
+```
+EXPECTED;
+        $result = mdx_compile($template, $code);
+        $this->assertEquals($expected, $result);
+    }
+
 	function testSnippetReplacementWithoutPhpTag(){
 		$template = "Take a look at this code:\n";
 		$template.= "#mdx:snip1 -h:autoload -php";

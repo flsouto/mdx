@@ -22,6 +22,16 @@ function mdx_compile($template, $source){
 			eval($code);
 			return "```\n".ob_get_clean()."\n```";
 		} else {
+
+		    foreach($sources['headers_options'] as $header_id => $options){
+		        foreach($options as $option => $value){
+		            // remove headers that are hidden by default
+		            if($option=='hidden' && $value){
+		                $match['-h'][] = $header_id;
+                    }
+                }
+            }
+
 			return mdx_build_display($sources, $snippet, $match['-h'], $match['-php']);
 		}
 
