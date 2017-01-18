@@ -89,5 +89,29 @@ class ProcessorsTest extends TestCase{
 
     }
 
+    function testIdemOptionWorksWhenOutputIsInvokedBefore(){
+        $template = "
+            This is an example:
+            #mdx:test -h:header1,header2 -php
+            
+            The OUTPUT will be:
+            #mdx:text -o
+
+            This is another example:
+            #mdx:test2 idem
+        ";
+
+        $parsed = [];
+
+        mdx_process_template($template,function($m) use(&$parsed){
+            if($m['snippet_name']=='test2'){
+                $parsed = $m;
+            }
+        });
+
+        $this->assertEquals(['header1','header2'],$parsed['-h']);
+        $this->assertTrue($parsed['-php']);
+    }
+
 
 }
