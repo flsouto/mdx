@@ -167,6 +167,15 @@ If you wanted to skip only the autoload, but keep the alias:
 #mdx:snippet1 -h:autoload
 ```
 
+#### Marking headers as hidden by default
+
+If you want a header statement to be always executed but never displayed, then you can use the "hidden" option, which should come after the name of the header like so:
+
+```php
+#mdx:h autoload hidden
+require_once('vendor/autoload.php');
+```
+
 ## Keep the php tag from display in the docs
 
 In the same way you suppress headers, you can also suppress the php opening tag from appearing:
