@@ -183,6 +183,38 @@ The -php option can be mixed with the -h option as well:
 
 The above would place the snippet in the markdown without the php opening tag and the alias header.
 
+## Repeating previously used options
+
+At some point in the documentation you will probably be using the same options again and again, like so:
+
+```
+See this example:
+#mdx:snippet1 -php -h:alias,autoload
+
+See another example:
+#mdx:snippet2 -php -h:alias,autoload
+
+See yet another example:
+#mdx:snippet3 -php -h:alias,autoload
+
+```
+
+The good news is that you can use the special `idem` option to avoid such repetious work. This flag is going to replicate
+the same options used in the last mdx command:
+
+```
+See this example:
+#mdx:snippet1 -php -h:alias,autoload
+
+See another example:
+#mdx:snippet2 idem
+
+See yet another example:
+#mdx:snippet3 idem
+
+```
+
+
 ## Final Thoughts
 
 Want to see a working example used in production? Then take a look at this markdown-x template along with its resulting markdown file:

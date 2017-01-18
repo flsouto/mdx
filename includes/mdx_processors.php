@@ -5,6 +5,7 @@ function mdx_process_template($template, $callback){
 	
 	$lines = preg_split("/\r\n|\n/",$template);
 	$output = [];
+    $last_options = [];
 
 	foreach($lines as $i => $line){
 		$line_number = $i + 1;
@@ -27,20 +28,33 @@ function mdx_process_template($template, $callback){
 					$remove_headers = explode(',',mb_substr($token,3));
 				} else if($token=='-php'){
 					$no_php_tag = true;
-				} else if($token=='-o') { 
-					$out = true;
+				} else if($token=='-o') {
+                    $out = true;
+                } else if(strtolower($token)=='idem') {
+				    if(empty($last_options)){
+				        throw new Exception("The 'idem' flag cannot be used at line $line_number because no previous options have been set.");
+                    }
+				    $remove_headers = $last_options['-h'];
+				    $no_php_tag = $last_options['-php'];
 				} else {
 					throw new Exception("Unrecognized option '$token' at line $line_number");
 				}
 			}
-			$line = $callback([
-				'line_number' => $line_number,
-				'line_content' => $line,
-				'snippet_name' => $snippet,
-				'-h' => $remove_headers,
-				'-php' => $no_php_tag,
-				'-o' => $out
-			]);
+
+			$last_options = [
+                '-h' => $remove_headers,
+                '-php' => $no_php_tag
+            ];
+
+			$callback_data = array_merge([
+                'line_number' => $line_number,
+                'line_content' => $line,
+                'snippet_name' => $snippet,
+                '-o' => $out
+            ], $last_options);
+
+			$line = $callback($callback_data);
+
 		}
 		$output[] = $line;
 	}
