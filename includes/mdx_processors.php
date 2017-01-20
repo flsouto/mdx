@@ -41,17 +41,20 @@ function mdx_process_template($template, $callback){
 				}
 			}
 
-			$last_options = [
-                '-h' => $remove_headers,
-                '-php' => $no_php_tag
-            ];
-
-			$callback_data = array_merge([
+			$callback_data = [
                 'line_number' => $line_number,
                 'line_content' => $line,
                 'snippet_name' => $snippet,
                 '-o' => $out
-            ], $last_options);
+            ];
+
+            if(!$out){
+				$last_options = [
+	                '-h' => $remove_headers,
+	                '-php' => $no_php_tag
+	            ];
+	            $callback_data = array_merge($callback_data, $last_options);
+            }
 
 			$line = $callback($callback_data);
 
