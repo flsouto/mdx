@@ -170,4 +170,18 @@ class ParsersTest extends TestCase{
 
 	}
 
+	function testRemoveExtraEmptyLines(){
+	    $lines = [
+	        '',
+            '',
+	        'line1',
+            '',
+            '',
+            'line2',
+            ''
+        ];
+        $lines = mdx_remove_extra_empty_lines($lines);
+        $this->assertEquals(['line1','','line2'],$lines);
+    }
+
 }

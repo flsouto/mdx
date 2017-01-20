@@ -142,3 +142,37 @@ function mdx_indent_less($line, $level){
 
 	return mb_substr($line, $i);
 }
+
+function mdx_remove_extra_empty_lines($content){
+    if(is_array($content)){
+        $type = 'array';
+        $lines = array_values($content);
+    } else {
+        $type = 'string';
+        $lines = explode("\n",$content);
+    }
+    $previous_was_empty = false;
+    $last_line = count($lines)-1;
+    foreach($lines as $i => $line){
+        $line = trim($line);
+        if(empty($line)){
+            if($i<1 || $i==$last_line){
+                unset($lines[$i]);
+                $previous_was_empty = true;
+            } else {
+                if($previous_was_empty){
+                    unset($lines[$i]);
+                } else {
+                    $previous_was_empty = true;
+                }
+            }
+        } else {
+            $previous_was_empty = false;
+        }
+    }
+    if($type=='array'){
+        return array_values($lines);
+    } else {
+        return implode("\n",$lines);
+    }
+}

@@ -66,6 +66,7 @@ function mdx_build_display($sources, $snippet, $skip_headers=[], $skip_php=false
 		$content .= $sources['outputs'][$snippet];
 	}
 	$content.="\n```";
+    $content = mdx_remove_extra_empty_lines($content);
 
 	return $content;
 }
