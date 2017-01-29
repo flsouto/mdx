@@ -20,7 +20,15 @@ function mdx_compile($template, $source){
 			$code = mdx_build_executable($sources, $snippet);
 			ob_start();
 			eval($code);
-			return "```\n".ob_get_clean()."\n```";
+			$output = ob_get_clean();
+			$outtype = '';
+			if(!empty($match['-o.httidy'])){
+				require_once(__DIR__.'/htmLawed.php');
+				$output = htmlawed($output,['tidy'=>'2s']);
+				$outtype = 'html';
+			}
+
+			return "```$outtype\n".$output."\n```";
 		} else {
 
 		    foreach($sources['headers_options'] as $header_id => $options){

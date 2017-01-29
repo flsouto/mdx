@@ -133,6 +133,23 @@ The contents of REAMDE.md will be (notice that the output command `print_r($word
 			[3] => tested
 		)
 		```
+### Tidying html output
+
+If the output of a snippet is in html format, you can use the `httidy` option next to `-o` in order to make the html look pretty (with indentation and such) in the output:
+
+```
+#mdx:snippet_that_produces_html -o httidy
+```
+
+Outputs:
+
+	```html
+		<div>
+		  <span></span>
+		  <div></div>
+		</div>
+	```
+**Notice:** this option automatically sets the code type to 'html' so that the correct highlighter is used.
 
 ### Invoking headers
 

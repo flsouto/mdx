@@ -170,4 +170,21 @@ EXPECTED;
 		$this->assertContains('output',$msg);
 	}
 
+	function testOutputWithHttidyOption(){
+		$code = '
+			#mdx:test
+			$var = "<div><span>This is a test</span></div>";
+			#/mdx echo $var
+		';
+		$template = '#mdx:test -o httidy';
+		$output = mdx_compile($template, $code);
+		$expected = <<<EXPECTED
+<div>
+ <span>This is a test</span>
+</div>
+EXPECTED;
+		$this->assertContains($expected, $output);
+		$this->assertContains('`html', $output);
+	}
+
 }

@@ -23,6 +23,7 @@ function mdx_process_template($template, $callback){
 			$remove_headers = [];
 			$no_php_tag = false;
 			$out = false;
+			$out_httidy = false;
 			foreach($tokens as $token){
 				if(mb_substr($token,0,3)=='-h:'){
 					$remove_headers = explode(',',mb_substr($token,3));
@@ -30,7 +31,13 @@ function mdx_process_template($template, $callback){
 					$no_php_tag = true;
 				} else if($token=='-o') {
                     $out = true;
-                } else if(strtolower($token)=='idem') {
+                } else if($token=='httidy'){
+                	if(!$out){
+                		throw new Exception("The 'httidy' option can only be used after the -o option.");
+                	}
+                	$out_httidy = true;
+                }
+                else if(strtolower($token)=='idem') {
 				    if(empty($last_options)){
 				        throw new Exception("The 'idem' flag cannot be used at line $line_number because no previous options have been set.");
                     }
@@ -45,7 +52,8 @@ function mdx_process_template($template, $callback){
                 'line_number' => $line_number,
                 'line_content' => $line,
                 'snippet_name' => $snippet,
-                '-o' => $out
+                '-o' => $out,
+                '-o.httidy' => $out_httidy
             ];
 
             if(!$out){
