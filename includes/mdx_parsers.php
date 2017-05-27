@@ -71,7 +71,15 @@ function mdx_parse_source_code($source_code){
 				}
 				$context = 'scan';
 				$snippet = [];
-			} else {
+			} 
+			else if(mb_substr($line_trimmed,0,7)=='#mdx:o ') {
+			// uncomment code to generate output
+                $line_changed = mdx_indent_less(str_replace('#mdx:o ','',$line), $indent_level);
+                if(mb_substr($line_changed,-1)!=';'){
+                    $line_changed .= ';';
+                }
+			    $snippet []= $line_changed;
+            } else {
 			// increment snippet
 				$snippet []= mdx_indent_less($line, $indent_level);
 			}

@@ -14,13 +14,13 @@ function mdx_compile($template, $source){
 			throw new Exception("No source code found for snippet '$snippet' - called at line $line.");
 		}
 		if(!empty($match['-o'])){
-			if(empty($sources['outputs'][$snippet])){
-				throw new Exception("No output found for snippet '$snippet' - called at line $line.");
-			}
 			$code = mdx_build_executable($sources, $snippet);
 			ob_start();
 			eval($code);
 			$output = ob_get_clean();
+            if(empty($output)){
+                throw new Exception("No output was generated for snippet '$snippet' - called at line $line.");
+            }
 			$outtype = '';
 			if(!empty($match['-o.httidy'])){
 				require_once(__DIR__.'/htmLawed.php');

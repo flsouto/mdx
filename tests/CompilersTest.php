@@ -158,7 +158,7 @@ EXPECTED;
 		$template = "#mdx:test -o";
 		$code = "
 			#mdx:test
-			function test(){}
+			function test2(){}
 			#/mdx		
 		";
 		$msg = '';
@@ -186,5 +186,22 @@ EXPECTED;
 		$this->assertContains($expected, $output);
 		$this->assertContains('`html', $output);
 	}
+
+    function testUncommentOutput(){
+        $code = '
+			#mdx:test
+			$var = "this is a test";
+			if($var){
+			    #mdx:o echo $var
+			}
+			#/mdx
+		';
+        $result = mdx_parse_source_code($code);
+
+        $template = '#mdx:test -o httidy';
+        $output = mdx_compile($template, $code);
+        $expected = "this is a test";
+        $this->assertContains($expected, $output);
+    }
 
 }

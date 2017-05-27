@@ -170,6 +170,25 @@ class ParsersTest extends TestCase{
 
 	}
 
+    function testUncommentOutput(){
+        $code = '
+			#mdx:test
+			$var = "this is a test";
+			if($var){
+			    #mdx:o echo $var
+			}
+			#/mdx
+		';
+        $result = mdx_parse_source_code($code);
+        $expected = <<<EXPECTED
+\$var = "this is a test";
+if(\$var){
+    echo \$var;
+}
+EXPECTED;
+        $this->assertContains($expected, $result['snippets']['test']);
+    }
+
 	function testRemoveExtraEmptyLines(){
 	    $lines = [
 	        '',
