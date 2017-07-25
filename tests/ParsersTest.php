@@ -203,4 +203,24 @@ EXPECTED;
         $this->assertEquals(['line1','','line2'],$lines);
     }
 
+    function testSkipLine(){
+        $code = '
+			#mdx:test
+			$var = "this is a test";
+			$array = []; #mdx:skip
+			if($var){
+			    #mdx:o echo $var
+			}
+			#/mdx
+		';
+        $result = mdx_parse_source_code($code);
+        $expected = <<<EXPECTED
+\$var = "this is a test";
+if(\$var){
+    echo \$var;
+}
+EXPECTED;
+        $this->assertContains($expected, $result['snippets']['test']);
+    }
+
 }

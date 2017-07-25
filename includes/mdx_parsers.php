@@ -79,7 +79,11 @@ function mdx_parse_source_code($source_code){
                     $line_changed .= ';';
                 }
 			    $snippet []= $line_changed;
-            } else {
+            }
+            else if(strstr($line_trimmed,'#mdx:skip')) {
+			    // skip this line...
+            }
+            else {
 			// increment snippet
 				$snippet []= mdx_indent_less($line, $indent_level);
 			}
