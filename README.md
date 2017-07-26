@@ -133,6 +133,40 @@ The contents of REAMDE.md will be (notice that the output command `print_r($word
 			[3] => tested
 		)
 		```
+### Placing the output in a different location
+Instead of generating an output at the end of a snippet you can do so in the middle of, by using the
+`#mdx:o` flag. See example bellow:
+
+```php
+	require_once('my_library.php');
+	function testCase1(){
+		#mdx:snippet1
+		$string = "Input to be tested";
+		#mdx:o var_dump($string)
+		$words = extractWords($string);
+		#/mdx
+		assert(count($words)==4);
+	}
+
+```
+
+When the snippet1 is extracted, the `#mdx:o var_dump($string)` line will be hidden from display but will
+be executed when the output is invoked.
+
+### Skipping a line
+
+If you just want a line to be totally ignored/removed from a snippet you can use the `#mdx:skip` flag.
+In the example bellow, the `some_dev_stuff()` line would be removed from the snippet:
+
+```php
+	require_once('my_library.php'); 
+	
+	some_dev_stuff(); #mdx:skip
+	
+	// etc...
+
+```
+
 ### Tidying html output
 
 If the output of a snippet is in html format, you can use the `httidy` option next to `-o` in order to make the html look pretty (with indentation and such) in the output:
@@ -184,7 +218,7 @@ If you wanted to skip only the autoload, but keep the alias:
 #mdx:snippet1 -h:autoload
 ```
 
-#### Marking headers as hidden by default
+#### Marking headers hidden by default
 
 If you want a header statement to be always executed but never displayed, then you can use the "hidden" option, which should come after the name of the header like so:
 
@@ -193,7 +227,7 @@ If you want a header statement to be always executed but never displayed, then y
 require_once('vendor/autoload.php');
 ```
 
-## Keep the php tag from display in the docs
+## Keep the php tag from displaying in the docs
 
 In the same way you suppress headers, you can also suppress the php opening tag from appearing:
 
